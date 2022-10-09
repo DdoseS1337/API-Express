@@ -5,9 +5,10 @@ import { ILogger } from "../logger/logger.interface";
 import { LoggerSevice } from "../logger/logger.service";
 import { TYPES } from "../types";
 import 'reflect-metadata';
+import { IUserController } from "./user.controller.interface";
 
 @injectable()
-export class UserController extends BaseController {
+export class UserController extends BaseController implements IUserController {
 
     constructor (@inject(TYPES.ILogger)  private loggerService: ILogger) {
 

@@ -29,7 +29,7 @@ const express_1 = __importDefault(require("express"));
 const inversify_1 = require("inversify");
 const exeption_filter_1 = require("./errors/exeption.filter");
 const types_1 = require("./types");
-const users_contoller_1 = require("./users/users.contoller");
+const users_controller_1 = require("./users/users.controller");
 require("reflect-metadata");
 let App = class App {
     constructor(logger, userController, exeptionFilter) {
@@ -59,7 +59,7 @@ App = __decorate([
     __param(0, (0, inversify_1.inject)(types_1.TYPES.ILogger)),
     __param(1, (0, inversify_1.inject)(types_1.TYPES.UserController)),
     __param(2, (0, inversify_1.inject)(types_1.TYPES.ExeptionFilter)),
-    __metadata("design:paramtypes", [Object, users_contoller_1.UserController,
+    __metadata("design:paramtypes", [Object, users_controller_1.UserController,
         exeption_filter_1.ExeptionFilter])
 ], App);
 exports.App = App;
