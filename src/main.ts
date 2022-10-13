@@ -9,6 +9,9 @@ import { ExeptionFilter } from './errors/exeption.filter';
 import { UserController } from './users/users.controller';
 import { IExeptionFilter } from './errors/exeption.filter.interface';
 import 'reflect-metadata';
+import { IUserController } from './users/user.controller.interface';
+import { IUserService } from './users/user.service.interface';
+import { UserService } from './users/user.service';
 
 export interface IBootstrapReturn {
 	appContainer: Container;
@@ -16,9 +19,10 @@ export interface IBootstrapReturn {
 }
 export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<ILogger>(TYPES.ILogger).to(LoggerSevice);
-	bind<App>(TYPES.Application).to(App);
 	bind<IExeptionFilter>(TYPES.ExeptionFilter).to(ExeptionFilter);
-	bind<UserController>(TYPES.UserController).to(UserController);
+	bind<IUserController>(TYPES.UserController).to(UserController);
+	bind<IUserService>(TYPES.UserService).to(UserService);
+	bind<App>(TYPES.Application).to(App);
 });
 
 function bootstrap(): IBootstrapReturn {
