@@ -9,6 +9,7 @@
     "dev": "nodemon",
     "dev:inspect": "nodemon -e ts,json --exec node --inspect=localhost:9222 -r ts-node/register src/main.ts",
     "lint": "eslint ./src/**",
+    "generate": "npx prisma generate",
     "lint:fix": "eslint ./src/** --fix",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,6 +17,7 @@
   "author": "DdoseS",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^4.4.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.1",
     "class-transformer": "^0.5.1",
@@ -23,6 +25,8 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.1",
     "inversify": "^6.0.1",
+    "path": "^0.12.7",
+    "prisma": "^4.4.0",
     "reflect-metadata": "^0.1.13",
     "tslog": "^3.3.4"
   },
