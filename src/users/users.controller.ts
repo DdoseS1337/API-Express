@@ -2,15 +2,12 @@ import { NextFunction, Request, Response } from 'express';
 import { inject, injectable } from 'inversify';
 import { BaseController } from '../common/base.controller';
 import { ILogger } from '../logger/logger.interface';
-import { LoggerSevice } from '../logger/logger.service';
 import { TYPES } from '../types';
 import 'reflect-metadata';
 import { IUserController } from './user.controller.interface';
 import { UserLoginDto } from './dto/user-login.dto';
 import { UserRegisterDto } from './dto/user-register.dto';
-import { User } from './user.entity';
-import { IUserService } from './user.service.interface';
-import { UserService } from './user.service';
+import { UserService } from './users.service';
 import { HTTPError } from '../errors/http-error.class';
 import { ValidateMiddleware } from '../common/validate.middleware';
 
@@ -28,18 +25,25 @@ export class UserController extends BaseController implements IUserController {
 				func: this.register,
 				middlewares: [new ValidateMiddleware(UserRegisterDto)],
 			},
-			{ path: '/login', method: 'post', func: this.login },
+			{
+				path: '/login',
+				method: 'post',
+				func: this.login,
+				middlewares: [new ValidateMiddleware(UserLoginDto)],
+			},
 		]);
 	}
 
 	async login(
-		{ body }: Request<{}, {}, UserLoginDto>,
+		req: Request<{}, {}, UserLoginDto>,
 		res: Response,
 		next: NextFunction,
 	): Promise<void> {
-		const newUser = new User(body.email, body.name);
-		await newUser.setPassword(body.password);
-		this.ok(res, newUser);
+		const result = await this.userService.validateUser(req.body);
+		if (!result) {
+			return next(new HTTPError(401, 'Not correct data'));
+		}
+		this.ok(res, {});
 	}
 
 	async register(
@@ -51,6 +55,6 @@ export class UserController extends BaseController implements IUserController {
 		if (!result) {
 			return next(new HTTPError(422, 'This user is already exist'));
 		}
-		this.ok(res, { email: result.email });
+		this.ok(res, { email: result.email, id: result.id });
 	}
 }
