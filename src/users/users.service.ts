@@ -1,4 +1,4 @@
-import { UserModel } from '@prisma/client';
+import { UserModel } from '.prisma/client';
 import { inject, injectable } from 'inversify';
 import { IConfigService } from '../config/config.sevice.interface';
 import { TYPES } from '../types';
@@ -24,6 +24,7 @@ export class UserService implements IUserService {
 		}
 		return this.usersRepository.create(newUser);
 	}
+
 	async validateUser({ email, password }: UserLoginDto): Promise<boolean> {
 		const existedUser = await this.usersRepository.find(email);
 		if (!existedUser) {
